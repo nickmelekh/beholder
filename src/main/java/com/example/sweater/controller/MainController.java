@@ -14,9 +14,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -81,5 +83,24 @@ public class MainController {
         model.addAttribute("page", page);
 
         return "main";
+    }
+
+    @GetMapping("/main/{product}/delete")
+    public String updateProduct(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable Product product,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
+    ) throws IOException {
+
+        product.setActive(false);
+        productRepo.save(product);
+
+        UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
+        components.getQueryParams()
+                .entrySet()
+                .forEach(pair -> redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
+
+        return "redirect:" + components.getPath();
     }
 }

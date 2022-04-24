@@ -21,7 +21,7 @@
             </div>
             <div class="card-footer text-muted container">
                 <div class="row">
-                    <button type="hide" class="btn">Удалить</button>
+                    <a href="/main/${item.id}/delete" class="btn">Удалить</a>
                     <#if item.url??>
                         <a href="${item.url}" class="btn btn-primary">В магазин</a>
                     </#if>
