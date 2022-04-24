@@ -3,6 +3,8 @@ package com.example.sweater.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -12,32 +14,41 @@ public class Product {
     private Long id;
     private String name;
     private String image;
-    private boolean active;
-    public Instant validFromDttm;
+//    private boolean active;
+//    public Instant validFromDttm;
     @Transient
     private Offer offers;
     private String price;
     @NotBlank(message = "Please fill the message")
     private String url;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Instant getValidFromDttm() {
-        return validFromDttm;
-    }
+    @ManyToMany
+    @JoinTable(
+        name = "product_x_user",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> viewers = new HashSet<>();
 
-    public void setValidFromDttm(Instant validFromDttm) {
-        this.validFromDttm = validFromDttm;
-    }
+//    public Instant getValidFromDttm() {
+//        return validFromDttm;
+//    }
+//
+//    public void setValidFromDttm(Instant validFromDttm) {
+//        this.validFromDttm = validFromDttm;
+//    }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+//    public boolean isActive() {
+//        return active;
+//    }
+//
+//    public void setActive(boolean active) {
+//        this.active = active;
+//    }
 
     public User getAuthor() {
         return author;
@@ -96,6 +107,14 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public Set<User> getViewers() {
+        return viewers;
+    }
+
+    public void setViewers(Set<User> viewers) {
+        this.viewers = viewers;
     }
 
     public Product(String name, String image, Offer offers) {

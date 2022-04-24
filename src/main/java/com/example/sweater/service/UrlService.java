@@ -32,7 +32,7 @@ public class UrlService {
         }
 
         Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
-        product.setValidFromDttm(instant);
+//        product.setValidFromDttm(instant);
 
         if (product.getUrl().toLowerCase().contains("ozon.ru")) {
 

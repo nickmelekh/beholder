@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface ProductRepo extends CrudRepository<Product, Long> {
-    @Query("select p from Product p where p.author = :user and p.active = true")
+    @Query("select p from Product p where p.author = :user")
     Page<Product> findAll(Pageable pageable, @Param("user") User user);
 }

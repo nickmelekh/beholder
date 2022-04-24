@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -63,9 +62,7 @@ public class MainController {
             Model model,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) throws IOException {
-        product.setAuthor(user);
-
-        urlService.setParams(product);
+        productService.addProduct(product, user);
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -74,7 +71,6 @@ public class MainController {
             model.addAttribute("product", product);
         } else {
             model.addAttribute("product", null);
-            product.setActive(true);
             productRepo.save(product);
         }
 
@@ -86,14 +82,14 @@ public class MainController {
     }
 
     @GetMapping("/main/{product}/delete")
-    public String updateProduct(
+    public String deleteProduct(
             @AuthenticationPrincipal User currentUser,
             @PathVariable Product product,
             RedirectAttributes redirectAttributes,
             @RequestHeader(required = false) String referer
     ) throws IOException {
 
-        product.setActive(false);
+//        product.setActive(false);
         productRepo.save(product);
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();

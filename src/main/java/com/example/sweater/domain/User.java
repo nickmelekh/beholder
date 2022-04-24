@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,8 +20,6 @@ public class User implements UserDetails {
     private String username;
     @NotBlank(message = "Password cannot be empty")
     private String password;
-
-    //    private LocalDateTime ValidFromDttm;
     private boolean active;
 
     @Email(message = "Email is not correct")
@@ -32,6 +31,14 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(
+        name = "product_x_user",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    Set<Product> products;
 
     public String getEmail() {
         return email;
@@ -48,14 +55,6 @@ public class User implements UserDetails {
     public String getActivationCode() {
         return activationCode;
     }
-
-//    public LocalDateTime getValidFromDttm() {
-//        return ValidFromDttm;
-//    }
-
-//    public void setValidFromDttm(LocalDateTime validFromDttm) {
-//        ValidFromDttm = validFromDttm;
-//    }
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
@@ -124,5 +123,13 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }
