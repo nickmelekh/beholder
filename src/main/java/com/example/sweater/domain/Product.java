@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -108,9 +109,24 @@ public class Product {
         this.viewers = viewers;
     }
 
-    public Product(String name, String image, Offer offers) {
-        this.name = name;
-        this.image = image;
-        this.offers = offers;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", offers=" + offers +
+                ", price='" + price + '\'' +
+                ", url='" + url + '\'' +
+                ", author=" + author +
+                ", viewers=" + viewers +
+                '}';
+    }
+
+    public void printViewers() {
+        Iterator itr = this.viewers.iterator();
+        while(itr.hasNext()){
+            System.out.print(itr.next() + ",");
+        }
     }
 }

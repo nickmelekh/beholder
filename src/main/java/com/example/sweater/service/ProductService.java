@@ -6,12 +6,14 @@ import com.example.sweater.domain.ProductXUserVersion;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.ProductRepo;
 import com.example.sweater.repos.ProductXUserVersionRepo;
+import com.example.sweater.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +40,17 @@ public class ProductService {
         if (!productViewers.contains(user)) {
             productViewers.add(user);
         }
+    }
+
+    public void hideProduct(Product product, User user) {
+        Set<User> productViewers = product.getViewers();
+
+        for (User viewer : productViewers) {
+            if (viewer.getId().equals(user.getId())) {
+                productViewers.remove(viewer);
+            }
+        }
+        productRepo.save(product);
     }
 
     public void addPxUVersion(Product product, User user) {

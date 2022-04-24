@@ -4,6 +4,7 @@ import com.example.sweater.domain.Product;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.ProductRepo;
 import com.example.sweater.repos.ProductXUserVersionRepo;
+import com.example.sweater.repos.UserRepo;
 import com.example.sweater.service.ProductService;
 import com.example.sweater.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,8 +89,7 @@ public class MainController {
             @RequestHeader(required = false) String referer
     ) throws IOException {
 
-//        product.setActive(false);
-        productRepo.save(product);
+        productService.hideProduct(product, currentUser);
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
         components.getQueryParams()

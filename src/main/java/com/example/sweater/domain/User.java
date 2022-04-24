@@ -38,7 +38,7 @@ public class User implements UserDetails {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    Set<Product> products;
+    Set<Product> products = new HashSet<>();
 
     public String getEmail() {
         return email;
