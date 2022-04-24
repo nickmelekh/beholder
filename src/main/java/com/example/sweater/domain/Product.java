@@ -14,7 +14,6 @@ public class Product {
     private Long id;
     private String name;
     private String image;
-//    private boolean active;
 //    public Instant validFromDttm;
     @Transient
     private Offer offers;
@@ -40,14 +39,6 @@ public class Product {
 //
 //    public void setValidFromDttm(Instant validFromDttm) {
 //        this.validFromDttm = validFromDttm;
-//    }
-
-//    public boolean isActive() {
-//        return active;
-//    }
-//
-//    public void setActive(boolean active) {
-//        this.active = active;
 //    }
 
     public User getAuthor() {

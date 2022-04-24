@@ -3,6 +3,7 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Product;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.ProductRepo;
+import com.example.sweater.repos.ProductXUserVersionRepo;
 import com.example.sweater.service.ProductService;
 import com.example.sweater.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,6 @@ import java.util.Map;
 public class MainController {
     @Autowired
     private ProductRepo productRepo;
-
-    @Autowired
-    private UrlService urlService;
 
     @Autowired
     private ProductService productService;
@@ -72,6 +70,7 @@ public class MainController {
         } else {
             model.addAttribute("product", null);
             productRepo.save(product);
+            productService.addPxUVersion(product, user);
         }
 
         model.addAttribute("url", "/main");

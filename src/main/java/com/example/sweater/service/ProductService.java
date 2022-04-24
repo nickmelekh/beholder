@@ -2,8 +2,10 @@ package com.example.sweater.service;
 
 import com.example.sweater.controller.ControllerUtils;
 import com.example.sweater.domain.Product;
+import com.example.sweater.domain.ProductXUserVersion;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.ProductRepo;
+import com.example.sweater.repos.ProductXUserVersionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,9 @@ import java.util.Set;
 public class ProductService {
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private ProductXUserVersionRepo productXUserVersionRepo;
 
     @Autowired
     private UrlService urlService;
@@ -33,6 +38,11 @@ public class ProductService {
         if (!productViewers.contains(user)) {
             productViewers.add(user);
         }
+    }
+
+    public void addPxUVersion(Product product, User user) {
+        ProductXUserVersion pxuv = new ProductXUserVersion(product, user);
+        productXUserVersionRepo.save(pxuv);
     }
 
 }
