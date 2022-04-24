@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 
 @Service
 public class UrlService {
@@ -28,8 +31,8 @@ public class UrlService {
             throw new RuntimeException(e);
         }
 
-//        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
-//        product.setValidFromDttm(instant);
+        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
+        product.setValidFromDttm(instant);
 
         if (product.getUrl().toLowerCase().contains("ozon.ru")) {
 

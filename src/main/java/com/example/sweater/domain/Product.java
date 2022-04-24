@@ -2,6 +2,7 @@ package com.example.sweater.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 
 @Entity
 public class Product {
@@ -12,27 +13,23 @@ public class Product {
     private String name;
     private String image;
     private boolean active;
-//    public Instant validFromDttm;
-
-//    public Instant getValidFromDttm() {
-//        return validFromDttm;
-//    }
-//
-//    public void setValidFromDttm(Instant validFromDttm) {
-//        this.validFromDttm = validFromDttm;
-//    }
-
+    public Instant validFromDttm;
     @Transient
     private Offer offers;
     private String price;
     @NotBlank(message = "Please fill the message")
     private String url;
-
-    // одному пользователю соответствует множество сообщений
-    // каждый раз когда получаем сообщение та же запрашиваем автора
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    public Instant getValidFromDttm() {
+        return validFromDttm;
+    }
+
+    public void setValidFromDttm(Instant validFromDttm) {
+        this.validFromDttm = validFromDttm;
+    }
 
     public boolean isActive() {
         return active;
