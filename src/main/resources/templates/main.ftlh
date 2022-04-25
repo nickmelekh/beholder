@@ -29,4 +29,20 @@
 
     <#include "parts/itemList.ftlh"/>
 
+    <div class="row m-1">
+        <a class="col">
+            <div>
+            <span style="font-size: 1.5em; color: Tomato;">
+                <i class="fa-solid fa-fire fa-beat-fade"></i>
+            </span>
+                <text> - стало дешевле</text>
+            </div>
+            <div>
+            <span style="font-size: 1.5em; color: #000000;">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+            </span>
+                <text> - стало дороже</text>
+            </div>
+        </a>
+    </div>
 </@c.page>

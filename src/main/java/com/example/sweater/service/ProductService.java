@@ -74,15 +74,15 @@ public class ProductService {
     public void checkUpdates() {
 
         for(Product product : productRepo.findAll()) {
-            Long oldPrice = Long.parseLong(product.getPrice());
+            double oldPrice = Double.parseDouble(product.getPrice());
 
             urlService.setParams(product);
             CustCharField productPrice = new CustCharField(product.getId(), "price", product.getPrice());
             custCharRepo.save(productPrice);
 
-            if (Long.parseLong(productPrice.getFieldValue()) > oldPrice) {
+            if (Double.parseDouble(productPrice.getFieldValue()) > oldPrice) {
                 product.setStatus("up");
-            } else if (Long.parseLong(productPrice.getFieldValue()) < oldPrice){
+            } else if (Double.parseDouble(productPrice.getFieldValue()) < oldPrice){
                 product.setStatus("down");
             }
             productRepo.save(product);
