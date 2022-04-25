@@ -1,6 +1,7 @@
 package com.example.sweater.service;
 
 import com.example.sweater.domain.Product;
+import com.example.sweater.domain.dto.ProductDto;
 import com.example.sweater.repos.ProductRepo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,7 +40,7 @@ public class UrlService {
             Gson gson = builder.create();
             for (Element elem : selectResult) {
 
-                Product urlProduct = gson.fromJson(elem.html(), Product.class);
+                ProductDto urlProduct = gson.fromJson(elem.html(), ProductDto.class);
 
                 product.setPrice(urlProduct.getOffers().getPrice());
                 product.setUrl(urlProduct.getOffers().getUrl());
@@ -56,6 +57,9 @@ public class UrlService {
                 product.setName(selectResult.select("meta[itemprop=\"name\"]").attr("content"));
             }
         }
+
+        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
+        product.setValidFromDttm(instant);
     }
 
 }

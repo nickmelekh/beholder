@@ -15,7 +15,7 @@ public class Product {
     private Long id;
     private String name;
     private String image;
-//    public Instant validFromDttm;
+    public Instant validFromDttm;
     @Transient
     private Offer offers;
     private String price;
@@ -34,13 +34,13 @@ public class Product {
     )
     private Set<User> viewers = new HashSet<>();
 
-//    public Instant getValidFromDttm() {
-//        return validFromDttm;
-//    }
-//
-//    public void setValidFromDttm(Instant validFromDttm) {
-//        this.validFromDttm = validFromDttm;
-//    }
+    public Instant getValidFromDttm() {
+        return validFromDttm;
+    }
+
+    public void setValidFromDttm(Instant validFromDttm) {
+        this.validFromDttm = validFromDttm;
+    }
 
     public User getAuthor() {
         return author;

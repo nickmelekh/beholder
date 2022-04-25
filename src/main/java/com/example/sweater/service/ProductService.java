@@ -33,9 +33,6 @@ public class ProductService {
 
     public void addProduct(Product product, User user) {
 
-//        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
-//        product.setValidFromDttm(instant);
-
         urlService.setParams(product);
 
         Long productUrlCount = productRepo.countUrl(product.getUrl());
