@@ -21,6 +21,7 @@ public class Product {
     private String price;
     @NotBlank(message = "Please fill the message")
     private String url;
+    private String status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -128,5 +129,13 @@ public class Product {
         while(itr.hasNext()){
             System.out.print(itr.next() + ",");
         }
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

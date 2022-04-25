@@ -8,6 +8,7 @@ create table product (
      url varchar(255),
      valid_from_dttm timestamp,
      user_id int8,
+     status varchar(255),
      primary key (id)
 );
 

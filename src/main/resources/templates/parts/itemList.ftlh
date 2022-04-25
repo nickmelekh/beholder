@@ -13,11 +13,20 @@
                 <#if item.name??>
                     <span>${item.name}</span>
                 </#if>
-                <#if item.price??>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Цена: ${item.price}</li>
-                    </ul>
-                </#if>
+            </div>
+            <div class="card-footer text-muted container">
+                <div class="row">
+                    <a class="col align-self-center" >
+                        <span>Цена: ${item.price}</span>
+                        <#if item.status="down">
+                            <span style="font-size: 1.5em; color: Tomato;">
+                                <i class="fas fa-fire"></i>
+                            </span>
+                        <#else>
+                            <i class="far fa-heart"></i>
+                        </#if>
+                    </a>
+                </div>
             </div>
             <div class="card-footer text-muted container">
                 <div class="row">
