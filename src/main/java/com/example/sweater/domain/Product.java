@@ -26,7 +26,7 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "product_x_user",
         joinColumns = @JoinColumn(name = "product_id"),

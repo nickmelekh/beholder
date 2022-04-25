@@ -11,11 +11,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProductRepo extends CrudRepository<Product, Long> {
     @Query("select p from Product p inner join p.viewers v where v = :user")
-    Page<Product> findAll(Pageable pageable, @Param("user") User user);
+    Page<Product> findUserProducts(Pageable pageable, @Param("user") User user);
 
     @Query("select count(p) from Product p where p.url = :url")
     Long countUrl(@Param("url") String url);
 
     @Query("select p from Product p where p.url = :url")
     Product findProduct(@Param("url") String url);
+
+    @Query("select p from Product p")
+    Iterable<Product> findAll();
 }
