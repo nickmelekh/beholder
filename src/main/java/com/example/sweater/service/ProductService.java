@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -33,8 +36,21 @@ public class ProductService {
     }
 
     public void addProduct(Product product, User user) {
-        product.setAuthor(user);
+
+        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
+//        product.setValidFromDttm(instant);
+
         urlService.setParams(product);
+
+        Long productUrlCount = productRepo.countUrl(product.getUrl());
+
+        if (productUrlCount == 0) {
+            product.setAuthor(user);
+        } else {
+            Product existingProduct = productRepo.findProduct(product.getUrl());
+            product.setId(existingProduct.getId());
+            product.setViewers(existingProduct.getViewers());
+        }
 
         Set<User> productViewers = product.getViewers();
         if (!productViewers.contains(user)) {

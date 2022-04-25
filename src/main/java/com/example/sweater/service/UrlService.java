@@ -31,9 +31,6 @@ public class UrlService {
             throw new RuntimeException(e);
         }
 
-        Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();
-//        product.setValidFromDttm(instant);
-
         if (product.getUrl().toLowerCase().contains("ozon.ru")) {
 
             Elements selectResult = doc.select("script[type=application/ld+json]");
