@@ -1,8 +1,10 @@
 package com.example.sweater.service;
 
+import com.example.sweater.domain.CustCharField;
 import com.example.sweater.domain.Product;
 import com.example.sweater.domain.ProductXUserVersion;
 import com.example.sweater.domain.User;
+import com.example.sweater.repos.CustCharRepo;
 import com.example.sweater.repos.ProductRepo;
 import com.example.sweater.repos.ProductXUserVersionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import java.util.Set;
 public class ProductService {
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private CustCharRepo custCharRepo;
 
     @Autowired
     private ProductXUserVersionRepo productXUserVersionRepo;
@@ -49,6 +54,7 @@ public class ProductService {
         if (!productViewers.contains(user)) {
             productViewers.add(user);
         }
+
     }
 
     public void hideProduct(Product product, User user) {
@@ -72,6 +78,8 @@ public class ProductService {
 
         for(Product product : productRepo.findAll()) {
             urlService.setParams(product);
+            CustCharField productPrice = new CustCharField(product.getId(), "price", product.getPrice());
+            custCharRepo.save(productPrice);
             productRepo.save(product);
         }
     }
