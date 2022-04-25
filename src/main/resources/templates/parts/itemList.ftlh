@@ -1,8 +1,6 @@
 <#include "security.ftlh">
 <#import "pager.ftlh" as p>
 
-<@p.pager url page />
-
 <div class="card-columns" id="message-list">
     <#list page.content as item>
         <div class="card my-3" data-id="${item.id}">
@@ -15,24 +13,18 @@
                 </#if>
             </div>
             <div class="card-footer text-muted container">
-                <div class="row">
-                    <a class="col align-self-center" >
-                        <span>Цена: ${item.price}</span>
+                <div class="row m-1">
+                    <#if item.status??>
                         <#if item.status="down">
-                            <span style="font-size: 1.5em; color: Tomato;">
-                                <i class="fas fa-fire"></i>
-                            </span>
+                            <i class="fa-solid fa-fire fa-beat-fade" style="font-size: 2.5em; color: Tomato;"></i>
                         <#else>
                             <i class="far fa-heart"></i>
                         </#if>
-                    </a>
-                </div>
-            </div>
-            <div class="card-footer text-muted container">
-                <div class="row">
-                    <a href="/main/${item.id}/delete" class="btn">Удалить</a>
+                    </#if>
+                    <a class="col align-self-center">Цена: ${item.price}</a>
+                    <a class="btn align-self-center" href="/main/${item.id}/delete">Удалить</a>
                     <#if item.url??>
-                        <a href="${item.url}" class="btn btn-primary">В магазин</a>
+                        <a class="btn btn-primary align-self-center" href="${item.url}">В магазин</a>
                     </#if>
                 </div>
             </div>
