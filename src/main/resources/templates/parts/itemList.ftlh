@@ -15,14 +15,28 @@
             <div class="card-footer text-muted container">
                 <div class="row m-1">
                     <#if item.status??>
-                        <#if item.status="down">
-                            <i class="fa-solid fa-fire fa-beat-fade" style="font-size: 2.5em; color: Tomato;"></i>
-                        <#else>
-                            <i class="far fa-heart"></i>
-                        </#if>
+                        <a class="col align-self-center">
+                            <#if item.status="down">
+                                <div>
+                                    <span style="font-size: 2em; color: Tomato;">
+                                        <i class="fa-solid fa-fire fa-beat-fade"></i>
+                                    </span>
+                                </div>
+                            <#else>
+                                <div>
+                                    <span style="font-size: 1.5em; color: #000000;">
+                                        <i class="fa-solid fa-arrow-trend-up"></i>
+                                    </span>
+                                </div>
+                            </#if>
+                        </a>
                     </#if>
                     <a class="col align-self-center">Цена: ${item.price}</a>
-                    <a class="btn align-self-center" href="/main/${item.id}/delete">Удалить</a>
+                    <a class="col align-self-center" href="/main/${item.id}/delete">
+                        <span style="font-size: 2em;">
+                            <i class="fas fa-trash-can"></i>
+                        </span>
+                    </a>
                     <#if item.url??>
                         <a class="btn btn-primary align-self-center" href="${item.url}">В магазин</a>
                     </#if>
