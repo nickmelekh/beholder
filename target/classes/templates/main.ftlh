@@ -9,8 +9,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="text"
-                           class="form-control ${(textError??)?string('is-invalid', '')}"
-                           value="<#if product??>${product.url}</#if>"
+                           class="form-control ${(urlError??)?string('is-invalid', '')}"
                            name="url"
                            placeholder="Введите ссылку" />
                     <#if urlError??>

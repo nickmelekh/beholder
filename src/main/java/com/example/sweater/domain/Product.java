@@ -19,7 +19,7 @@ public class Product {
     @Transient
     private Offer offers;
     private String price;
-    @NotBlank(message = "Please fill the message")
+    @NotBlank(message = "Ссылка некорректна")
     private String url;
     private String status;
 
@@ -73,6 +73,10 @@ public class Product {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setBlankUrl() {
+        this.url = null;
     }
 
     public Offer getOffers() {

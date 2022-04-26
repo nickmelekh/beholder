@@ -26,36 +26,40 @@ public class UrlService {
     public void setParams(Product product) {
 
         Document doc = null;
-        try {
-            doc = Jsoup.connect(product.getUrl()).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        if (product.getUrl().toLowerCase().contains("ozon.ru")) {
-
-            Elements selectResult = doc.select("script[type=application/ld+json]");
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            for (Element elem : selectResult) {
-
-                ProductDto urlProduct = gson.fromJson(elem.html(), ProductDto.class);
-
-                product.setPrice(urlProduct.getOffers().getPrice());
-                product.setUrl(urlProduct.getOffers().getUrl());
-                product.setImage(urlProduct.getImage());
-                product.setName(urlProduct.getName());
+        if (product.getUrl().toLowerCase().contains("ozon.ru") || product.getUrl().toLowerCase().contains("wildberries.ru")) {
+            try {
+                doc = Jsoup.connect(product.getUrl()).get();
+            } catch (IOException e) {
+                product.setBlankUrl();
+                throw new RuntimeException(e);
             }
-        }
-        else if (product.getUrl().toLowerCase().contains("wildberries.ru")) {
-            Elements selectResult = doc.select("div[itemtype=\"http://schema.org/Product\"]");
-            for (Element elem : selectResult) {
-                product.setPrice(selectResult.select("meta[itemprop=\"price\"]").attr("content"));
-                product.setUrl("https://www.wildberries.ru" + selectResult.select("meta[itemprop=\"url\"]").attr("content"));
-                product.setImage(selectResult.select("meta[itemprop=\"image\"]").attr("content"));
-                product.setName(selectResult.select("meta[itemprop=\"name\"]").attr("content"));
+            if (product.getUrl().toLowerCase().contains("ozon.ru")) {
+
+                Elements selectResult = doc.select("script[type=application/ld+json]");
+
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                for (Element elem : selectResult) {
+
+                    ProductDto urlProduct = gson.fromJson(elem.html(), ProductDto.class);
+
+                    product.setPrice(urlProduct.getOffers().getPrice());
+                    product.setUrl(urlProduct.getOffers().getUrl());
+                    product.setImage(urlProduct.getImage());
+                    product.setName(urlProduct.getName());
+                }
+            } else if (product.getUrl().toLowerCase().contains("wildberries.ru")) {
+                Elements selectResult = doc.select("div[itemtype=\"http://schema.org/Product\"]");
+                for (Element elem : selectResult) {
+                    product.setPrice(selectResult.select("meta[itemprop=\"price\"]").attr("content"));
+                    product.setUrl("https://www.wildberries.ru" + selectResult.select("meta[itemprop=\"url\"]").attr("content"));
+                    product.setImage(selectResult.select("meta[itemprop=\"image\"]").attr("content"));
+                    product.setName(selectResult.select("meta[itemprop=\"name\"]").attr("content"));
+                }
             }
+        } else {
+            product.setBlankUrl();
         }
 
         Instant instant = Clock.system(ZoneId.of("Europe/Moscow")).instant();

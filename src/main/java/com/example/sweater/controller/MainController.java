@@ -15,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,11 +64,17 @@ public class MainController {
     ) throws IOException {
         productService.addProduct(product, user);
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || StringUtils.isEmpty(product.getUrl())) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            if (StringUtils.isEmpty(product.getUrl())) {
+                errorsMap.put("urlError", "Ссылка некорректна");
+            }
+            System.out.println(errorsMap.toString());
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("product", product);
+
         } else {
             model.addAttribute("product", null);
             productRepo.save(product);
